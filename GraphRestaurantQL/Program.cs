@@ -80,7 +80,7 @@ if (app.Environment.IsDevelopment())
     {
         Headers = new Dictionary<string, string>()
         {
-            ["Authorization"] = "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJncmFwaGlRbCIsInVuaXF1ZV9uYW1lIjoiZ3JhcGhpUWwiLCJuYmYiOjE3MDkzMjcxOTMsImV4cCI6MTcwOTkzMTk5MywiaWF0IjoxNzA5MzI3MTkzLCJpc3MiOiJ0ZXN0In0.KgqOPxRTTZFtHlc4vicOkN23O9GMtXc_1wRDPfN802miLD8L9-0Jw0eKmEp4fvo2gjaEjI45O3bomPAFmdsk2w"
+            ["Authorization"] = "pass here jwt token, so GraphiQl has access to /graphql"
         }
     });
 }
