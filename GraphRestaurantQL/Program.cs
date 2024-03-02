@@ -54,6 +54,8 @@ builder.Services.AddGraphQL(b =>
 {
     b.AddAutoSchema<ISchema>();
     b.AddSystemTextJson();
+    b.AddAuthorizationRule(); // enable authroization on operations level, but introspect query (schema discovery)
+    // can go without it, so Graphiql will produce documentation without problems
     b.AddFormFileGraphType(); // allow to upload files, FormFileGraphType automapped to IFormFile
 });
 
@@ -61,7 +63,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     var secKey = Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"]!);
-                    options.TokenValidationParameters = new TokenValidationParameters()
+                    options.TokenValidationParameters = new()
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(secKey),
@@ -76,22 +78,12 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseGraphQLGraphiQL("/ui/graphiql", new GraphiQLOptions()
-    {
-        Headers = new Dictionary<string, string>()
-        {
-            ["Authorization"] = "pass here jwt token, so GraphiQl has access to /graphql"
-        }
-    });
+    app.UseGraphQLGraphiQL("/ui/graphiql");
 }
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseGraphQL("/graphql", x =>
-{
-    x.AuthorizationRequired = true;
-    x.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
-});
+app.UseGraphQL("/graphql");
 
 app.Run();

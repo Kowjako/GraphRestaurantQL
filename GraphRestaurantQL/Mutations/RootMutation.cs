@@ -1,4 +1,5 @@
-﻿using GraphQL.Types;
+﻿using GraphQL;
+using GraphQL.Types;
 
 namespace GraphRestaurantQL.Mutations
 {
@@ -6,10 +7,12 @@ namespace GraphRestaurantQL.Mutations
     {
         public RootMutation()
         {
-            Field<CategoryMutations>("category").Resolve(_ => new { });
-            Field<MenuMutations>("menu").Resolve(_ => new { });
-            Field<ReservationMutations>("reservation").Resolve(_ => new { });
-            Field<AuthMutations>("auth").Resolve(_ => new { });
+            Field<CategoryMutations>("category").Authorize().Resolve(_ => new { });
+            Field<MenuMutations>("menu").Authorize().Resolve(_ => new { });
+            Field<ReservationMutations>("reservation").Authorize().Resolve(_ => new { });
+
+            // Disable authentication for auth mutations
+            Field<AuthMutations>("auth").AllowAnonymous().Resolve(_ => new { });
         }
     }
 }
