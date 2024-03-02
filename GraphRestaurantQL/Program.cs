@@ -48,13 +48,13 @@ builder.Services.AddTransient<ReservationMutations>();
 builder.Services.AddTransient<AuthMutations>();
 builder.Services.AddTransient<RootMutation>();
 
-
 builder.Services.AddTransient<ISchema, RootSchema>();
 
 builder.Services.AddGraphQL(b =>
 {
     b.AddAutoSchema<ISchema>();
     b.AddSystemTextJson();
+    b.AddFormFileGraphType(); // allow to upload files, FormFileGraphType automapped to IFormFile
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -88,6 +88,10 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseGraphQL("/graphql", opt => opt.AuthorizationRequired = true);
+app.UseGraphQL("/graphql", x =>
+{
+    x.AuthorizationRequired = true;
+    x.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+});
 
 app.Run();

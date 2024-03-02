@@ -1,4 +1,6 @@
-﻿using GraphQL.Types;
+﻿using System.Security.Claims;
+using GraphQL;
+using GraphQL.Types;
 using GraphRestaurantQL.Interfaces;
 using GraphRestaurantQL.Type;
 

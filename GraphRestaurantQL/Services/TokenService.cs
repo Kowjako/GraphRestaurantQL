@@ -9,6 +9,7 @@ namespace GraphRestaurantQL.Services
     public interface ITokenService
     {
         string GetToken();
+        string UploadImage(IFormFile file);
     }
 
     public class TokenService : ITokenService
@@ -43,6 +44,12 @@ namespace GraphRestaurantQL.Services
             var token = tokenHandler.CreateToken(tokenDescr);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        // Non-sense in token service, only to check multipart form uploading
+        public string UploadImage(IFormFile file)
+        {
+            throw new NotImplementedException();
         }
     }
 }

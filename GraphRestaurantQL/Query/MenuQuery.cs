@@ -10,13 +10,16 @@ namespace GraphRestaurantQL.Query
     {
         public MenuQuery(IMenuRepository menuRepo)
         {
+            Description = "Menu query entrypoint";
+
             // Here we define like in REST "endpoints"
-            Field<ListGraphType<MenuType>>("getAll").ResolveAsync(async ctx =>
+            Field<ListGraphType<MenuType>>("getAll").Description("Retrieve all menus").ResolveAsync(async ctx =>
             {
                 return await menuRepo.GetAll();
             });
 
             Field<MenuType>("getById")
+                .Description("Get menu by id")
                 .Arguments(new QueryArguments(new QueryArgument<IntGraphType>() { Name = "menuId" }))
                 .ResolveAsync(async ctx =>
                 {

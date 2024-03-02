@@ -9,9 +9,19 @@ namespace GraphRestaurantQL.Query
     {
         public RootQuery()
         {
-            Field<MenuQuery>("menu").Resolve(ctx => new {});
-            Field<CategoryQuery>("category").Resolve(ctx => new {});
-            Field<ReservationQuery>("reservation").Resolve(ctx => new {});
+            Description = "Main entry point to access all project queries";
+
+            Field<MenuQuery>("menu")
+                .Description("Graph node related to Menu queries")
+                .Resolve(ctx => new {});
+
+            Field<CategoryQuery>("category")
+                .Description("Graph node related to category queries")
+                .Resolve(ctx => new {});
+
+            Field<ReservationQuery>("reservation")
+                .Description("Graph node related to reservation queries")
+                .Resolve(ctx => new {});
         }
     }
 }
