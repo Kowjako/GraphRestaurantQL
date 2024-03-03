@@ -20,41 +20,41 @@ builder.Services.AddDbContext<GraphQLDbContext>(dbc =>
     dbc.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
-builder.Services.AddTransient<ITokenService, TokenService>();
-builder.Services.AddTransient<IMenuRepository, MenuRepository>();
-builder.Services.AddTransient<IReservationRepository, ReservationRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 // Register all Graph Types
-builder.Services.AddTransient<MenuType>();
-builder.Services.AddTransient<CategoryType>();
-builder.Services.AddTransient<ReservationType>();
-builder.Services.AddTransient<TokenType>();
+builder.Services.AddSingleton<MenuType>();
+builder.Services.AddSingleton<CategoryType>();
+builder.Services.AddSingleton<ReservationType>();
+builder.Services.AddSingleton<TokenType>();
 
-builder.Services.AddTransient<MenuInputType>();
-builder.Services.AddTransient<CategoryInputType>();
-builder.Services.AddTransient<ReservationInputType>();
+builder.Services.AddSingleton<MenuInputType>();
+builder.Services.AddSingleton<CategoryInputType>();
+builder.Services.AddSingleton<ReservationInputType>();
 
 // Register all Queries - also graph types
-builder.Services.AddTransient<MenuQuery>();
-builder.Services.AddTransient<CategoryQuery>();
-builder.Services.AddTransient<ReservationQuery>();
-builder.Services.AddTransient<RootQuery>();
+builder.Services.AddSingleton<MenuQuery>();
+builder.Services.AddSingleton<CategoryQuery>();
+builder.Services.AddSingleton<ReservationQuery>();
+builder.Services.AddSingleton<RootQuery>();
 
 // Register all Mutations - also graph types
-builder.Services.AddTransient<CategoryMutations>();
-builder.Services.AddTransient<MenuMutations>();
-builder.Services.AddTransient<ReservationMutations>();
-builder.Services.AddTransient<AuthMutations>();
-builder.Services.AddTransient<RootMutation>();
+builder.Services.AddSingleton<CategoryMutations>();
+builder.Services.AddSingleton<MenuMutations>();
+builder.Services.AddSingleton<ReservationMutations>();
+builder.Services.AddSingleton<AuthMutations>();
+builder.Services.AddSingleton<RootMutation>();
 
-builder.Services.AddTransient<ISchema, RootSchema>();
+builder.Services.AddSingleton<ISchema, RootSchema>();
 
 builder.Services.AddGraphQL(b =>
 {
     b.AddAutoSchema<ISchema>();
     b.AddSystemTextJson();
-    b.AddAuthorizationRule(); // enable authroization on operations level, but introspect query (schema discovery)
+   // b.AddAuthorizationRule(); // enable authroization on operations level, but introspect query (schema discovery)
     // can go without it, so Graphiql will produce documentation without problems
     b.AddFormFileGraphType(); // allow to upload files, FormFileGraphType automapped to IFormFile
 });

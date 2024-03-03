@@ -1,4 +1,5 @@
 ﻿using GraphQL;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using GraphRestaurantQL.Interfaces;
 using GraphRestaurantQL.Models;
@@ -8,36 +9,40 @@ namespace GraphRestaurantQL.Mutations
 {
     public class CategoryMutations : ObjectGraphType
     {
-        public CategoryMutations(ICategoryRepository catRepo)
+        public CategoryMutations()
         {
             // Here we define like in REST "endpoints"
-            Field<MenuType>("add")
+            Field<CategoryType, Category>("add")
                 .Arguments(new QueryArguments(new QueryArgument<CategoryInputType>() { Name = "category" }))
-                .ResolveAsync(async ctx =>
+                .ResolveScopedAsync(async ctx =>
             {
                 // here its like automapping since properties from menuInputType and menu are the same
                 var dto = ctx.GetArgument<Category>("category");
+                var catRepo = ctx.RequestServices!.GetRequiredService<ICategoryRepository>();
                 await catRepo.AddCategory(dto);
                 return dto; // it will be automapped to MenuType
             });
 
-            Field<MenuType>("update")
+            Field<CategoryType, Category>("update")
                 .Arguments(new QueryArguments(new QueryArgument<IntGraphType>() { Name = "id" },
                                               new QueryArgument<CategoryInputType>() { Name = "category" }))
-                .ResolveAsync(async ctx =>
+                .ResolveScopedAsync(async ctx =>
                 {
                     // here its like automapping since properties from menuInputType and menu are the same
                     var dto = ctx.GetArgument<Category>("category");
                     var id = ctx.GetArgument<int>("id");
-                    await catRepo.UpdateCategory(id, dto);
-                    return dto;
+
+                    var catRepo = ctx.RequestServices!.GetRequiredService<ICategoryRepository>();
+                    return await catRepo.UpdateCategory(id, dto);
                 });
 
-            Field<StringGraphType>("delete")
+            Field<StringGraphType, string>("delete")
                 .Arguments(new QueryArguments(new QueryArgument<IntGraphType>() { Name = "id" }))
-                .ResolveAsync(async ctx =>
+                .ResolveScopedAsync(async ctx =>
                  {
                      var id = ctx.GetArgument<int>("id");
+
+                     var catRepo = ctx.RequestServices!.GetRequiredService<ICategoryRepository>();
                      await catRepo.DeleteCategory(id);
                      return "Deleted successfully";
                  });

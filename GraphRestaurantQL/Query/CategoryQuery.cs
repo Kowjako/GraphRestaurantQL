@@ -1,18 +1,20 @@
-﻿using System.Security.Claims;
-using GraphQL;
+﻿using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using GraphRestaurantQL.Interfaces;
+using GraphRestaurantQL.Models;
 using GraphRestaurantQL.Type;
 
 namespace GraphRestaurantQL.Query
 {
     public class CategoryQuery : ObjectGraphType
     {
-        public CategoryQuery(ICategoryRepository catRepo)
+        public CategoryQuery()
         {
             // Here we define like in REST "endpoints"
-            Field<ListGraphType<CategoryType>>("getAll").ResolveAsync(async ctx =>
+            Field<ListGraphType<CategoryType>, IReadOnlyList<Category>>("getAll")
+                .ResolveScopedAsync(async ctx =>
             {
+                var catRepo = ctx.RequestServices!.GetRequiredService<ICategoryRepository>();
                 return await catRepo.GetCategories();
             });
         }
