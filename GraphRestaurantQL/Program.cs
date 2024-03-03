@@ -54,7 +54,7 @@ builder.Services.AddGraphQL(b =>
 {
     b.AddAutoSchema<ISchema>();
     b.AddSystemTextJson();
-   // b.AddAuthorizationRule(); // enable authroization on operations level, but introspect query (schema discovery)
+    b.AddAuthorizationRule(); // enable authroization on operations level, but introspect query (schema discovery)
     // can go without it, so Graphiql will produce documentation without problems
     b.AddFormFileGraphType(); // allow to upload files, FormFileGraphType automapped to IFormFile
 });
