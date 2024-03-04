@@ -1,5 +1,6 @@
 ﻿using GraphRestaurantQL.Mutations;
 using GraphRestaurantQL.Query;
+using GraphRestaurantQL.Subscriptions;
 
 namespace GraphRestaurantQL.Schema
 {
@@ -11,6 +12,7 @@ namespace GraphRestaurantQL.Schema
         {
             Query = sp.GetRequiredService<RootQuery>();
             Mutation = sp.GetRequiredService<RootMutation>();
+            Subscription = sp.GetRequiredService<OrderSubscription>();
         }
     }
 }

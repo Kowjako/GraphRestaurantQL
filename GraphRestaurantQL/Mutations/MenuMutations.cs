@@ -13,12 +13,14 @@ namespace GraphRestaurantQL.Mutations
         {
             // Here we define like in REST "endpoints"
             Field<MenuType, Menu>("add")
-                .Arguments(new QueryArguments(new QueryArgument<MenuInputType>() { Name = "menu" }))
+                .Argument<MenuInputType>("menu")
                 .ResolveScopedAsync(async ctx =>
             {
                 // here its like automapping since properties from menuInputType and menu are the same
-                var dto = ctx.GetArgument<Menu>("name");
+                var dto = ctx.GetArgument<Menu>("menu");
+
                 var menuRepo = ctx.RequestServices!.GetRequiredService<IMenuRepository>();
+
                 await menuRepo.AddMenu(dto);
                 return dto;
             });

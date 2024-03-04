@@ -25,7 +25,7 @@ namespace GraphRestaurantQL.Query
 
             Field<MenuType, Menu>("getById")
                 .Description("Get menu by id")
-                .Arguments(new QueryArguments(new QueryArgument<IntGraphType>() { Name = "menuId" }))
+                .Argument<IntGraphType>("menuId")
                 .ResolveScopedAsync(async ctx =>
                 {
                     var menuRepo = ctx.RequestServices!.GetRequiredService<IMenuRepository>();

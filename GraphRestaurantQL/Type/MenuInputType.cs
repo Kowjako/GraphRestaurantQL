@@ -7,7 +7,6 @@ namespace GraphRestaurantQL.Type
     {
         public MenuInputType()
         {
-            Field<IntGraphType>("id");
             Field<StringGraphType>("name");
             Field<StringGraphType>("description");
             Field<FloatGraphType>("price");
