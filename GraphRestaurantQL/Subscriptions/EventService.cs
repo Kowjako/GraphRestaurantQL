@@ -1,6 +1,4 @@
-﻿using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using GraphQL.Types;
+﻿using GraphQL.Types;
 
 namespace GraphRestaurantQL.Subscriptions
 {
@@ -28,17 +26,15 @@ namespace GraphRestaurantQL.Subscriptions
 
     public class EventService : IEventService
     {
-        private readonly ISubject<EventModel> _subject;
-        private Guid Id { get; set; }
+        private readonly EventObservable _subject;
 
         public EventService()
         {
-            Id = Guid.NewGuid();
-            _subject = new ReplaySubject<EventModel>(1);
+            _subject = new EventObservable();
         }
 
-        public void Push(EventModel data) => _subject.OnNext(data);
+        public void Push(EventModel data) => _subject.Publish(data);
 
-        public IObservable<EventModel> Observable => _subject.AsObservable();
+        public IObservable<EventModel> Observable => _subject;
     }
 }

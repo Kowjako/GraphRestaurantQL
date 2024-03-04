@@ -25,6 +25,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 builder.Services.AddSingleton<IEventService, EventService>();
 
 // Register all Graph Types
@@ -89,7 +90,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseWebSockets(); // graphql subscriptons working under websockets
+app.UseWebSockets(); 
 app.UseGraphQL("/graphql");
 
 app.Run();
