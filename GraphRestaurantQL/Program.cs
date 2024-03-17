@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text;
 using GraphQL;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 using GraphRestaurantQL.Data;
 using GraphRestaurantQL.Interfaces;
@@ -28,33 +29,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddSingleton<IEventService, EventService>();
 
-// Register all Graph Types
-builder.Services.AddSingleton<MenuType>();
-builder.Services.AddSingleton<CategoryType>();
-builder.Services.AddSingleton<ReservationType>();
-builder.Services.AddSingleton<TokenType>();
-builder.Services.AddSingleton<EventModelType>();
-
-builder.Services.AddSingleton<MenuInputType>();
-builder.Services.AddSingleton<CategoryInputType>();
-builder.Services.AddSingleton<ReservationInputType>();
-
-// Register all Queries - also graph types
-builder.Services.AddSingleton<MenuQuery>();
-builder.Services.AddSingleton<CategoryQuery>();
-builder.Services.AddSingleton<ReservationQuery>();
-builder.Services.AddSingleton<RootQuery>();
-
-// Register all Mutations - also graph types
-builder.Services.AddSingleton<CategoryMutations>();
-builder.Services.AddSingleton<MenuMutations>();
-builder.Services.AddSingleton<ReservationMutations>();
-builder.Services.AddSingleton<AuthMutations>();
-builder.Services.AddSingleton<RootMutation>();
-
-builder.Services.AddSingleton<OrderSubscription>();
-
-builder.Services.AddSingleton<ISchema, RootSchema>();
+builder.Services.AddSingleton<ISchema, RootSchema>(sp => new(new SelfActivatingServiceProvider(sp)));
 
 builder.Services.AddGraphQL(b =>
 {
