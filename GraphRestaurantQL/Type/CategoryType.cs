@@ -10,7 +10,8 @@ namespace GraphRestaurantQL.Type
             Field(_ => _.Id);
             Field(_ => _.Name);
             Field(_ => _.ImageUrl);
-            Field(_ => _.Menus);
+            Field<ListGraphType<MenuType>>("Menus")
+                .Resolve(ctx => ctx.Source.Menus);
         }
     }
 }

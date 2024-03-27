@@ -17,12 +17,12 @@ namespace GraphRestaurantQL.Type
 
             // Here we provide which properties will be available for the GraphQL
             // from our model, here we allow all
-            Field(m => m.Id).Description("id field");
-            Field(m => m.Name).Description("id field");
-            Field(m => m.Description).Description("id field");
-            Field(m => m.Price).Description("id field");
-            Field(m => m.ImageUrl).Description("image");
-            Field(m => m.CategoryId);
+            Field(_ => _.Id).Description("id field");
+            Field(_ => _.Name).Description("id field");
+            Field(_ => _.Description).Description("id field");
+            Field(_ => _.Price).Description("id field");
+            Field(_ => _.ImageUrl).Description("image");
+            Field(_ => _.CategoryId);
         }
     }
 }
